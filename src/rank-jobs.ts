@@ -140,43 +140,28 @@ export async function rankJobs() {
   for (const job of rows) {
     const { job_id, ...jobIdLessData } = job
     console.log(`evaluating`, job.title, job.company_name)
-    const result = await evalJob(jobIdLessData)
-    // console.log(result)
+    try {
+      const result = await evalJob(jobIdLessData)
 
-    const updateQuery = `UPDATE jobs set would_shannon_like_this_job = $1, pros = $2, cons = $3, job_summary = $4 WHERE job_id = $5`
-    await client.query(updateQuery, [
-      result.would_shannon_like_this_job,
-      JSON.stringify(result.pros),
-      JSON.stringify(result.cons),
-      result.job_description,
-      job_id,
-    ])
+      const updateQuery = `UPDATE jobs set would_shannon_like_this_job = $1, pros = $2, cons = $3, job_summary = $4 WHERE job_id = $5`
+      await client.query(updateQuery, [
+        result.would_shannon_like_this_job,
+        JSON.stringify(result.pros),
+        JSON.stringify(result.cons),
+        result.job_description,
+        job_id,
+      ])
 
-    if (result.would_shannon_like_this_job) {
-      await getDetailedJobInfo(client, job_id)
+      if (result.would_shannon_like_this_job) {
+        await getDetailedJobInfo(client, job_id)
+      }
+    } catch (e) {
+      // just ignore — most likely a zod error but oh well for now.
+      console.log(e)
     }
   }
 
   process.exit()
-}
-
-async function tempUpdateJobsDetailed() {
-  let client
-
-  try {
-    client = new Client({ connectionString })
-    await client.connect()
-  } catch (e) {
-    console.log(e)
-  }
-
-  const { rows } = await client.query(
-    `select job_id from jobs where would_shannon_like_this_job = true`
-  )
-
-  for (const job of rows) {
-    await getDetailedJobInfo(client, job.job_id)
-  }
 }
 
 // tempUpdateJobsDetailed()

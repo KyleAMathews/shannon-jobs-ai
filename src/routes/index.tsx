@@ -47,7 +47,12 @@ export default function Index() {
         return (
           <div>
             <h3>
-              {job.title} @ {job.company_name}
+              <a
+                target="_blank"
+                href={`https://www.google.com/search?${new URLSearchParams(`q=${job.title} @ ${job.company_name}`)}`}
+              >
+                {job.title} @ {job.company_name}
+              </a>
             </h3>
             <button
               onClick={() => {
@@ -64,7 +69,9 @@ export default function Index() {
               Mark read
             </button>
             <p>Posted {job.detected_extensions.posted_at}</p>
-            <a href={job.google_jobs_listing_url}>Google Search Listing</a>
+            <a target="_blank" href={job.google_jobs_listing_url}>
+              Google Search Listing
+            </a>
             <p>{job.job_summary}</p>
             <h4>Pros</h4>
             <ul>{job.pros?.map((pro) => <li>{pro}</li>)}</ul>

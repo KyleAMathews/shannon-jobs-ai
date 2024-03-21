@@ -86,8 +86,8 @@ export async function fetchJobs({ start = 0 }) {
   }
 
   const res = await fetch(
-    // updateQueryString(baseUrl, { start, date_posted: `today` })
-    updateQueryString(baseUrl, { start, date_posted: `3days` })
+    updateQueryString(baseUrl, { start, date_posted: `today` })
+    // updateQueryString(baseUrl, { start, date_posted: `3days` })
   )
   const data = await res.json()
 

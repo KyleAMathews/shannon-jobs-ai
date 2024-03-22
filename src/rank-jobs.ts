@@ -65,7 +65,9 @@ const functions: ZodFunctionDef[] = [
         ),
       pros: z
         .array(z.string())
-        .describe(`reasons why you think Shannon will like this job.`),
+        .describe(
+          `reasons why you think Shannon will like this job. Don't mention if the job is remote or full-time as those have to be true.`
+        ),
       cons: z
         .array(z.string())
         .describe(`reasons why you think Shannon will not like this job.`),
@@ -89,6 +91,7 @@ async function evalJob(jobData) {
               - She has a lot of experience with devtools, e-learning, clis, open source, tutorials, onboarding, growth, etc. so jobs in these areas are good matches.
               - She enjoys industries around education, developer tools, writing, environmentalism, and science.
               - She is NOT interested in industries around esports and betting.
+              - She strongly preferres b2b / saas companies vs. b2c companies.
               - overly fast paced "hustle", work to bone, etc. jobs are not her style. She wants a challenging work environment but prefers a more balanced lifestyle.
               - isn't a job mainly around managing the company's design systems — she likes deeply understanding users and designing features that solve their problems. USING a design system however is a great sign as she wants to design screens with a well-built design system.
               - is not a contract or freelance job (only full-time jobs w/ benefits)
@@ -137,6 +140,7 @@ export async function rankJobs() {
   const query = `SELECT job_id, title, company_name, location, description, job_highlights, related_links, detected_extensions from jobs WHERE would_shannon_like_this_job IS NULL limit 40;`
 
   const { rows } = await client.query(query)
+  console.log(`evaluating ${rows.length} new jobs`)
   for (const job of rows) {
     const { job_id, ...jobIdLessData } = job
     console.log(`evaluating`, job.title, job.company_name)

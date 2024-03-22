@@ -1,0 +1,1 @@
+ALTER TABLE read_jobs ADD COLUMN why TEXT;

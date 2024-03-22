@@ -9,8 +9,9 @@ import { Electric, schema } from "./generated/client"
 import sqliteWasm from "wa-sqlite/dist/wa-sqlite-async.wasm?asset"
 import { authToken, dummyUserId } from "./auth"
 
-import Index from "./routes/index"
 import Root from "./routes/root"
+import Index from "./routes/index"
+import Applied from "./routes/applied"
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,6 @@ const router = createBrowserRouter([
         loader: async (props) => {
           const url = new URL(props.request.url)
           const key = url.pathname + url.search
-          console.log(`before loader`)
           await electricSqlLoader<Electric>({
             key,
             shapes: ({ db, electric }) => [
@@ -48,7 +48,39 @@ const router = createBrowserRouter([
                   db,
                 }),
           })
-          console.log(`after loader`)
+
+          return null
+        },
+      },
+      {
+        path: `/applied`,
+        element: <Applied />,
+        loader: async (props) => {
+          const url = new URL(props.request.url)
+          const key = url.pathname + url.search
+          await electricSqlLoader<Electric>({
+            key,
+            shapes: ({ db, electric }) => [
+              {
+                shape: db.jobs.sync(),
+                isReady: async () => {
+                  return true
+                },
+              },
+              {
+                shape: db.read_jobs.sync(),
+                isReady: async () => {
+                  return true
+                },
+              },
+            ],
+            queries:
+              ({ db }) =>
+              () =>
+                Applied.queries({
+                  db,
+                }),
+          })
 
           return null
         },

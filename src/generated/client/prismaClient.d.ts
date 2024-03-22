@@ -35,6 +35,7 @@ export type Jobs = {
   created_at: Date | null
   google_jobs_listing_url: string | null
   apply_options: Prisma.JsonValue | null
+  company_info: string | null
 }
 
 /**
@@ -48,6 +49,7 @@ export type Read_jobs = {
   id: string
   job_id: string
   created_at: Date | null
+  why: string | null
 }
 
 
@@ -865,6 +867,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary: string | null
     created_at: Date | null
     google_jobs_listing_url: string | null
+    company_info: string | null
   }
 
   export type JobsMaxAggregateOutputType = {
@@ -879,6 +882,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary: string | null
     created_at: Date | null
     google_jobs_listing_url: string | null
+    company_info: string | null
   }
 
   export type JobsCountAggregateOutputType = {
@@ -900,6 +904,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at: number
     google_jobs_listing_url: number
     apply_options: number
+    company_info: number
     _all: number
   }
 
@@ -916,6 +921,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary?: true
     created_at?: true
     google_jobs_listing_url?: true
+    company_info?: true
   }
 
   export type JobsMaxAggregateInputType = {
@@ -930,6 +936,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary?: true
     created_at?: true
     google_jobs_listing_url?: true
+    company_info?: true
   }
 
   export type JobsCountAggregateInputType = {
@@ -951,6 +958,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: true
     google_jobs_listing_url?: true
     apply_options?: true
+    company_info?: true
     _all?: true
   }
 
@@ -1051,6 +1059,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at: Date | null
     google_jobs_listing_url: string | null
     apply_options: JsonValue | null
+    company_info: string | null
     _count: JobsCountAggregateOutputType | null
     _min: JobsMinAggregateOutputType | null
     _max: JobsMaxAggregateOutputType | null
@@ -1089,6 +1098,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: boolean
     google_jobs_listing_url?: boolean
     apply_options?: boolean
+    company_info?: boolean
   }
 
 
@@ -1862,18 +1872,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string | null
     job_id: string | null
     created_at: Date | null
+    why: string | null
   }
 
   export type Read_jobsMaxAggregateOutputType = {
     id: string | null
     job_id: string | null
     created_at: Date | null
+    why: string | null
   }
 
   export type Read_jobsCountAggregateOutputType = {
     id: number
     job_id: number
     created_at: number
+    why: number
     _all: number
   }
 
@@ -1882,18 +1895,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: true
     job_id?: true
     created_at?: true
+    why?: true
   }
 
   export type Read_jobsMaxAggregateInputType = {
     id?: true
     job_id?: true
     created_at?: true
+    why?: true
   }
 
   export type Read_jobsCountAggregateInputType = {
     id?: true
     job_id?: true
     created_at?: true
+    why?: true
     _all?: true
   }
 
@@ -1979,6 +1995,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string
     job_id: string
     created_at: Date | null
+    why: string | null
     _count: Read_jobsCountAggregateOutputType | null
     _min: Read_jobsMinAggregateOutputType | null
     _max: Read_jobsMaxAggregateOutputType | null
@@ -2002,6 +2019,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: boolean
     job_id?: boolean
     created_at?: boolean
+    why?: boolean
   }
 
 
@@ -2785,7 +2803,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary: 'job_summary',
     created_at: 'created_at',
     google_jobs_listing_url: 'google_jobs_listing_url',
-    apply_options: 'apply_options'
+    apply_options: 'apply_options',
+    company_info: 'company_info'
   };
 
   export type JobsScalarFieldEnum = (typeof JobsScalarFieldEnum)[keyof typeof JobsScalarFieldEnum]
@@ -2819,7 +2838,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export const Read_jobsScalarFieldEnum: {
     id: 'id',
     job_id: 'job_id',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    why: 'why'
   };
 
   export type Read_jobsScalarFieldEnum = (typeof Read_jobsScalarFieldEnum)[keyof typeof Read_jobsScalarFieldEnum]
@@ -2870,6 +2890,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: DateTimeNullableFilter | Date | string | null
     google_jobs_listing_url?: StringNullableFilter | string | null
     apply_options?: JsonNullableFilter
+    company_info?: StringNullableFilter | string | null
   }
 
   export type JobsOrderByWithRelationInput = {
@@ -2891,6 +2912,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: SortOrder
     google_jobs_listing_url?: SortOrder
     apply_options?: SortOrder
+    company_info?: SortOrder
   }
 
   export type JobsWhereUniqueInput = {
@@ -2916,6 +2938,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: SortOrder
     google_jobs_listing_url?: SortOrder
     apply_options?: SortOrder
+    company_info?: SortOrder
     _count?: JobsCountOrderByAggregateInput
     _max?: JobsMaxOrderByAggregateInput
     _min?: JobsMinOrderByAggregateInput
@@ -2943,6 +2966,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     google_jobs_listing_url?: StringNullableWithAggregatesFilter | string | null
     apply_options?: JsonNullableWithAggregatesFilter
+    company_info?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type Read_jobsWhereInput = {
@@ -2952,12 +2976,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: UuidFilter | string
     job_id?: StringFilter | string
     created_at?: DateTimeNullableFilter | Date | string | null
+    why?: StringNullableFilter | string | null
   }
 
   export type Read_jobsOrderByWithRelationInput = {
     id?: SortOrder
     job_id?: SortOrder
     created_at?: SortOrder
+    why?: SortOrder
   }
 
   export type Read_jobsWhereUniqueInput = {
@@ -2968,6 +2994,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: SortOrder
     job_id?: SortOrder
     created_at?: SortOrder
+    why?: SortOrder
     _count?: Read_jobsCountOrderByAggregateInput
     _max?: Read_jobsMaxOrderByAggregateInput
     _min?: Read_jobsMinOrderByAggregateInput
@@ -2980,6 +3007,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: UuidWithAggregatesFilter | string
     job_id?: StringWithAggregatesFilter | string
     created_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    why?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type JobsCreateInput = {
@@ -3001,6 +3029,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: Date | string | null
     google_jobs_listing_url?: string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: string | null
   }
 
   export type JobsUncheckedCreateInput = {
@@ -3022,6 +3051,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: Date | string | null
     google_jobs_listing_url?: string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: string | null
   }
 
   export type JobsUpdateInput = {
@@ -3043,6 +3073,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     google_jobs_listing_url?: NullableStringFieldUpdateOperationsInput | string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JobsUncheckedUpdateInput = {
@@ -3064,6 +3095,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     google_jobs_listing_url?: NullableStringFieldUpdateOperationsInput | string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JobsCreateManyInput = {
@@ -3085,6 +3117,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: Date | string | null
     google_jobs_listing_url?: string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: string | null
   }
 
   export type JobsUpdateManyMutationInput = {
@@ -3106,6 +3139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     google_jobs_listing_url?: NullableStringFieldUpdateOperationsInput | string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JobsUncheckedUpdateManyInput = {
@@ -3127,48 +3161,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     google_jobs_listing_url?: NullableStringFieldUpdateOperationsInput | string | null
     apply_options?: NullableJsonNullValueInput | InputJsonValue
+    company_info?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Read_jobsCreateInput = {
     id: string
     job_id: string
     created_at?: Date | string | null
+    why?: string | null
   }
 
   export type Read_jobsUncheckedCreateInput = {
     id: string
     job_id: string
     created_at?: Date | string | null
+    why?: string | null
   }
 
   export type Read_jobsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     job_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    why?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Read_jobsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     job_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    why?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Read_jobsCreateManyInput = {
     id: string
     job_id: string
     created_at?: Date | string | null
+    why?: string | null
   }
 
   export type Read_jobsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     job_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    why?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Read_jobsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     job_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    why?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter = {
@@ -3258,6 +3300,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     created_at?: SortOrder
     google_jobs_listing_url?: SortOrder
     apply_options?: SortOrder
+    company_info?: SortOrder
   }
 
   export type JobsMaxOrderByAggregateInput = {
@@ -3272,6 +3315,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary?: SortOrder
     created_at?: SortOrder
     google_jobs_listing_url?: SortOrder
+    company_info?: SortOrder
   }
 
   export type JobsMinOrderByAggregateInput = {
@@ -3286,6 +3330,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     job_summary?: SortOrder
     created_at?: SortOrder
     google_jobs_listing_url?: SortOrder
+    company_info?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -3387,18 +3432,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: SortOrder
     job_id?: SortOrder
     created_at?: SortOrder
+    why?: SortOrder
   }
 
   export type Read_jobsMaxOrderByAggregateInput = {
     id?: SortOrder
     job_id?: SortOrder
     created_at?: SortOrder
+    why?: SortOrder
   }
 
   export type Read_jobsMinOrderByAggregateInput = {
     id?: SortOrder
     job_id?: SortOrder
     created_at?: SortOrder
+    why?: SortOrder
   }
 
   export type UuidWithAggregatesFilter = {

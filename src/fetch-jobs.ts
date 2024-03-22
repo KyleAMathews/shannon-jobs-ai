@@ -1,5 +1,14 @@
+import { ChromaClient } from "chromadb"
 import pg from "pg"
 const { Client } = pg
+import { OpenAIEmbeddingFunction } from "chromadb"
+
+const chromaClient = new ChromaClient({
+  path: `http://localhost:8005`,
+})
+const embedder = new OpenAIEmbeddingFunction({
+  openai_api_key: process.env.OPENAI_KEY,
+})
 
 const connectionString = true
   ? `postgresql://postgres:pg_password@localhost:5432/shannon-job-finder`
@@ -77,6 +86,10 @@ const baseUrl = new URL(
 
 export async function fetchJobs({ start = 0 }) {
   let client
+  const collection = await chromaClient.getCollection({
+    name: `jobs`,
+    embeddingFunction: embedder,
+  })
 
   try {
     client = new Client({ connectionString })
@@ -92,7 +105,43 @@ export async function fetchJobs({ start = 0 }) {
   const data = await res.json()
 
   for (const job of data.jobs_results) {
-    await insertJob(client, job)
+    const results = await collection.query({
+      nResults: 1,
+      queryTexts: [
+        JSON.stringify(
+          {
+            // job_id: job.job_id,
+            title: job.title,
+            company_name: job.company_name,
+            location: job.location,
+            description: job.description,
+            job_highlights: job.job_highlights,
+            exensions: job.extensions,
+          },
+          null,
+          4
+        ),
+      ],
+    })
+    const closestDistance = results.distances[0][0]
+    if (closestDistance > 0.1) {
+      const { rows } = await client.query(
+        `SELECT title, company_name from jobs where company_name = $1`,
+        [job.company_name]
+      )
+      const { company_name, title } = (rows && rows[0]) || {}
+      if (
+        company_name != job.company_name &&
+        title !== job.title &&
+        // Jobot is a spammy recruiting company.
+        job.company_name !== `Jobot`
+      ) {
+        console.log(rows)
+        console.log(job.title, job.company_name, results.distances[0][0])
+        await insertJob(client, job)
+      }
+    }
+    // continue
   }
 
   if (data.jobs_results.length === 10) {

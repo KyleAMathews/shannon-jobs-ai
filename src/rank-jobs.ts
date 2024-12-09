@@ -86,6 +86,7 @@ async function evalJob(jobData) {
         content: `You are an AI agent that evaluates jobs for Shannon Soper, a Senior Product Designer. She is enthusiastically looking for a new job and needs your help to evaluate potential jobs to see if they're a good fit.
 
             She's looking for a remote job with the following qualities:
+              - The job is posted by the company itself — if it appears to be posted by a recruiter, then reject the job.
               - pays well ($140k+). If the maximum salary is below this, then she for sure won't want the job.
               - isn't focused on marketing or graphic design
               - She has a lot of experience with devtools, e-learning, clis, open source, tutorials, onboarding, growth, etc. so jobs in these areas are good matches.

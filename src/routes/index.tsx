@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Container, Flex, Text, Heading, Button } from "@radix-ui/themes"
 import { useElectricData } from "electric-query"
 import { useLocation, Link } from "react-router-dom"
@@ -14,13 +15,12 @@ const SplitColumns = ({ leftComponent, rightComponent }) => {
 
   const columnStyle = {
     flex: 1,
-    padding: `0 8px`, // Adjust padding as needed
   }
 
   const verticalLineStyle = {
     width: `1px`,
     backgroundColor: `#000`, // Color of the vertical line
-    margin: `0 8px`, // Adjust margin to control gap between columns
+    margin: `0 16px`,
   }
 
   return (
@@ -54,6 +54,14 @@ Index.queries = queries
 
 export default function Index() {
   const { db } = useElectric()!
+  useEffect(() => {
+    async function main() {
+      const shape = await db.read_jobs.sync()
+      const synced = await shape.synced
+      console.log({ shape, synced })
+    }
+    main()
+  }, [])
   const location = useLocation()
   const {
     jobs,
@@ -66,15 +74,13 @@ export default function Index() {
   console.log({ read_jobs })
   const readJobs = new Set()
   read_jobs.forEach((read) => readJobs.add(read.job_id))
+  const toEvaluate = jobs.filter((job) => !readJobs.has(job.job_id))
 
   return (
-    <div>
-      <h1>Jobs I Might Like</h1>
-      <p>{jobs.length - readJobs.size} to evaluate</p>
-      {jobs.map((job) => {
-        if (readJobs.has(job.job_id)) {
-          return
-        }
+    <Flex direction="column" gap="5">
+      <Heading>Jobs I Might Like</Heading>
+      <Text as="p">{toEvaluate.length} to evaluate</Text>
+      {toEvaluate.map((job) => {
         return (
           <div>
             <SplitColumns
@@ -96,7 +102,7 @@ export default function Index() {
                       LinkedIn
                     </a>
                   </p>
-                  <button
+                  <Button
                     style={{ marginRight: 8 }}
                     onClick={() => {
                       console.log(`click`)
@@ -111,8 +117,8 @@ export default function Index() {
                     }}
                   >
                     Applied
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => {
                       console.log(`click`)
                       db.read_jobs.create({
@@ -126,7 +132,7 @@ export default function Index() {
                     }}
                   >
                     Reject
-                  </button>
+                  </Button>
                   <p>Posted {job.detected_extensions.posted_at}</p>
                   <p>{job.job_summary}</p>
                   <h4>Pros</h4>
@@ -145,6 +151,6 @@ export default function Index() {
           </div>
         )
       })}
-    </div>
+    </Flex>
   )
 }

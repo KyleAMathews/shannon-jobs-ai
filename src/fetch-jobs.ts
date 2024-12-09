@@ -53,8 +53,6 @@ async function insertJob(client, job) {
     ]
 
     await client.query(query, values)
-
-    console.log(`Job inserted successfully.`)
   } catch (error) {
     console.error(`Error inserting job:`, error)
   }
@@ -81,7 +79,7 @@ function updateQueryString(url, queryParams) {
 }
 
 const baseUrl = new URL(
-  `https://serpapi.com/search.json?engine=google_jobs&q=senior+product+designer&location=United+States&google_domain=google.com&gl=us&hl=en&start=0&chips=date_posted%3Aweek&ltype=1&api_key=ef4c686ab57e1e8295369395068e4d1f2389e6a1a95b4a644fd6bc4abdd77c0d`
+  `https://serpapi.com/search.json?engine=google_jobs&q=product+designer&location=United+States&google_domain=google.com&gl=us&hl=en&start=0&chips=date_posted%3Aweek&ltype=1&api_key=ef4c686ab57e1e8295369395068e4d1f2389e6a1a95b4a644fd6bc4abdd77c0d`
 )
 
 export async function fetchJobs({ start = 0 }) {
@@ -105,23 +103,18 @@ export async function fetchJobs({ start = 0 }) {
   const data = await res.json()
 
   for (const job of data.jobs_results) {
+    const jobDocument = JSON.stringify({
+      // job_id: job.job_id,
+      title: job.title,
+      company_name: job.company_name,
+      location: job.location,
+      description: job.description,
+      job_highlights: job.job_highlights,
+      exensions: job.extensions,
+    })
     const results = await collection.query({
       nResults: 1,
-      queryTexts: [
-        JSON.stringify(
-          {
-            // job_id: job.job_id,
-            title: job.title,
-            company_name: job.company_name,
-            location: job.location,
-            description: job.description,
-            job_highlights: job.job_highlights,
-            exensions: job.extensions,
-          },
-          null,
-          4
-        ),
-      ],
+      queryTexts: [jobDocument],
     })
     const closestDistance = results.distances[0][0]
     if (closestDistance > 0.1) {
@@ -136,9 +129,18 @@ export async function fetchJobs({ start = 0 }) {
         // Jobot is a spammy recruiting company.
         job.company_name !== `Jobot`
       ) {
-        console.log(rows)
-        console.log(job.title, job.company_name, results.distances[0][0])
+        // console.log(rows)
+        console.log(
+          `adding`,
+          job.title,
+          job.company_name,
+          results.distances[0][0]
+        )
         await insertJob(client, job)
+        await collection.upsert({
+          ids: [job.job_id],
+          documents: [jobDocument],
+        })
       }
     }
     // continue

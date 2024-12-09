@@ -66,13 +66,13 @@ async function getCompanyInfoForJobs() {
   const query = `SELECT job_id, title, company_name from jobs WHERE would_shannon_like_this_job = true and company_info IS NULL limit 100;`
 
   const { rows } = await client.query(query)
+  console.log(`getting company info for ${rows.length} jobs`)
   for (const job of rows) {
     console.log(`getting company info for`, job.title, job.company_name)
     try {
       const company_info = await getCompanyInfo(
         `${job.title} @ ${job.company_name}`
       )
-      console.log(company_info)
 
       const updateQuery = `UPDATE jobs set company_info = $1 WHERE job_id = $2`
       await client.query(updateQuery, [company_info, job.job_id])

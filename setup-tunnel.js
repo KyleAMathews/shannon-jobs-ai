@@ -3,6 +3,7 @@ const localtunnel = require(`localtunnel`)
 const fs = require(`fs`)
 
 ;(async () => {
+  console.log(`starting tunnel`)
   const [electricTunnel, viteTunnel] = await Promise.all([
     await localtunnel({ port: 5133 }),
     await localtunnel({ port: 5173 }),

@@ -1,6 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
+import "@radix-ui/themes/styles.css"
 import "./index.css"
+import "@fontsource/pt-sans/latin.css"
+import "./typography.css"
+import { Theme } from "@radix-ui/themes"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from "./error-page"
 import { ElectricalProvider } from "./context"
@@ -98,15 +102,18 @@ async function render() {
     sqliteWasmPath: sqliteWasm,
     token: authToken(),
     config: {
+      timeout: 15000,
       debug: true, //DEBUG_MODE,
       url: import.meta.env.VITE_ELECTRIC_URL,
     },
   })
   ReactDOM.createRoot(document.getElementById(`root`)!).render(
     <React.StrictMode>
-      <ElectricalProvider db={electric}>
-        <RouterProvider router={router} />
-      </ElectricalProvider>
+      <Theme>
+        <ElectricalProvider db={electric}>
+          <RouterProvider router={router} />
+        </ElectricalProvider>
+      </Theme>
     </React.StrictMode>
   )
 }

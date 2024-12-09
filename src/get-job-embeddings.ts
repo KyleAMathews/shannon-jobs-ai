@@ -30,13 +30,13 @@ async function getJobEmbeddings() {
   }
 
   // Get jobs that haven't been ranked.
-  const query = `SELECT job_id, title, company_name, location, description, job_highlights, extensions from jobs limit 200;`
+  const query = `SELECT job_id, title, company_name, location, description, job_highlights, extensions from jobs limit 300;`
 
   const { rows } = await client.query(query)
   for (const job of rows) {
     console.log(`getting job embeddings for`, job.title, job.company_name)
     const { job_id, ...otherFields } = job
-    await collection.update({
+    await collection.upsert({
       ids: [job_id],
       documents: [JSON.stringify(otherFields)],
     })

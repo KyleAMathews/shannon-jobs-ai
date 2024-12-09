@@ -45,13 +45,12 @@ const SplitColumns = ({ leftComponent, rightComponent }) => {
 
   const columnStyle = {
     flex: 1,
-    padding: `0 8px`, // Adjust padding as needed
   }
 
   const verticalLineStyle = {
     width: `1px`,
     backgroundColor: `#000`, // Color of the vertical line
-    margin: `0 8px`, // Adjust margin to control gap between columns
+    margin: `0 16px`,
   }
 
   return (
@@ -109,9 +108,9 @@ export default function Applied() {
   })
 
   return (
-    <div>
-      <h1>Jobs I applied to</h1>
-      <p>I've applied to {readJobs.size} jobs</p>
+    <Flex direction="column" gap="5">
+      <Heading>Jobs I applied to</Heading>
+      <Text as="p">I've applied to {readJobs.size} jobs</Text>
       {appliedJobs.map((job) => {
         const read = read_jobs.find((r) => r.job_id === job.job_id)
         return (
@@ -145,6 +144,6 @@ export default function Applied() {
           </div>
         )
       })}
-    </div>
+    </Flex>
   )
 }
